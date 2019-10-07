@@ -31,19 +31,22 @@ void printMatrix() {
 
 int getSequentialMinInRow(std::vector<int> row) {
     int min = row[0];
-    for (int i = 0; i < row.size(); i++) {
+    int row_size = row.size();
+    for (int i = 0; i < row_size; i++) {
         min = std::min(min, row[i]);
     }
+    return min;
 }
 
 int getParallelMinInRow(std::vector<int> row) {
     int size, rank;
+    int row_size = row.size();
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     // split our row (vector) into parts and send the addresses of each part
     // to other processes
-    const int delta = row.size() / size;
+    const int delta = row_size / size;
     if (rank == 0) {
         for (int proc = 1; proc < size; proc++) {
             MPI_Send(&row[0] + proc * delta, delta,
