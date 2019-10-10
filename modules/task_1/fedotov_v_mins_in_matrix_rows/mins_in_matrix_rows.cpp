@@ -6,7 +6,7 @@
 #include <iostream>
 #include "../../../modules/task_1/fedotov_v_mins_in_matrix_rows/mins_in_matrix_rows.h"
 
-std::vector<int> getRandomVector(int sz = COLS_COUNT) {
+std::vector<int> getRandomVector(int sz) { // default parameter COLS_COUNT
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
     std::vector<int> vec(sz);

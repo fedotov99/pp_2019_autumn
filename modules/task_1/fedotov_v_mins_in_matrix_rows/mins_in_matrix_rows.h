@@ -5,11 +5,14 @@
 #include <vector>
 #include <string>
 
-const int ROWS_COUNT = 10;
-const int COLS_COUNT = 10;
+#ifndef VARIABLES_H_
+#define VARIABLES_H_
+const static int ROWS_COUNT = 10;
+const static int COLS_COUNT = 10;
 
 std::vector<int> matrix[ROWS_COUNT]; // matrix of ROWS_COUNT rows, that's represented as array of vectors<int>
 int mins[ROWS_COUNT]; // array of mins of each row
+#endif // VARIABLES_H_
 
 std::vector<int> getRandomVector(int  sz = COLS_COUNT);
 void getRandomMatrix();
