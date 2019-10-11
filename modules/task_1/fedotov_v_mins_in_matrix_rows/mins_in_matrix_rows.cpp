@@ -10,6 +10,7 @@ const static int ROWS_COUNT = 10;
 const static int COLS_COUNT = 10;
 
 std::vector<int> matrix[ROWS_COUNT]; // matrix of ROWS_COUNT rows, that's represented as array of vectors<int>
+bool matrixInitialized = false;
 int mins[ROWS_COUNT]; // array of mins of each row
 
 std::vector<int> getRandomVector() { // default size is COLS_COUNT
@@ -24,6 +25,7 @@ void getRandomMatrix() {
     for (int i = 0; i < ROWS_COUNT; i++) {
         matrix[i] = getRandomVector(); // in this task we assume that matrix can be only of equal rows
     }
+    matrixInitialized = true;
 }
 
 void printVector(std::vector<int> vec) {
@@ -34,12 +36,16 @@ void printVector(std::vector<int> vec) {
 }
 
 void printMatrix() {
-    for (int i = 0; i < ROWS_COUNT; i++) {
-        for (int j = 0; j < COLS_COUNT; j++) {
-            std::cout << matrix[i][j] << " ";
+    if (matrixInitialized) {
+        for (int i = 0; i < ROWS_COUNT; i++) {
+            for (int j = 0; j < COLS_COUNT; j++) {
+                std::cout << matrix[i][j] << " ";
+            }
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
     }
+    else std::cout << "Matrix is not initialized " << std::endl;
+
 }
 
 int getSequentialMinInRow(std::vector<int> row) {
@@ -84,7 +90,8 @@ int getParallelMinInRow(std::vector<int> row) {
 }
 
 void getSequentialMinsInMatrix() {
-    getRandomMatrix();
+    if(!matrixInitialized)
+        getRandomMatrix();
     for (int i = 0; i < ROWS_COUNT; i++) {
         mins[i] = getSequentialMinInRow(matrix[i]);
     }
