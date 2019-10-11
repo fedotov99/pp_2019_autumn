@@ -98,22 +98,25 @@ void getSequentialMinsInMatrix() {
     }
 }
 
+/*
 void getParallelMinsInMatrix() { // distribute rows of matrix between processes
     if(!matrixInitialized)
         getRandomMatrix();
-    int size = ROWS_COUNT;
-    int rank;
+    int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     // send the addresses of each row to other processes
     if (rank == 0) {
         for (int proc = 1; proc < size; proc++) {
-            //MPI_Send(&matrix + proc * sizeof(std::vector<int>), ROWS_COUNT,
+            std::cout << "in cycle" << std::endl;
+            //MPI_Send(&matrix[0] + proc * sizeof(std::vector<int>), ROWS_COUNT,
             //            MPI_INT, proc, 0, MPI_COMM_WORLD); 
-            MPI_Send(&matrix[proc], ROWS_COUNT,
+            MPI_Send(&matrix[proc], ROWS_COUNT - 1,
                         MPI_INT, proc, 0, MPI_COMM_WORLD);
+            std::cout << "process 0 sended to " << proc << std::endl;
         }
+        std::cout << "process 0 sended" << std::endl;
     }
 
     // receive these addresses of rows in every process
@@ -121,12 +124,24 @@ void getParallelMinsInMatrix() { // distribute rows of matrix between processes
     if (rank == 0) {
         localMatrixRow = std::vector<int>(matrix[0]);
         minsByParallel[0] = getParallelMinInRow(localMatrixRow);
+        std::cout << "process 0 received" << std::endl;
     } else {
+        std::cout << "rank " << rank << std::endl;
         MPI_Status status;
-        MPI_Recv(&localMatrixRow, ROWS_COUNT, 
+        MPI_Recv(&localMatrixRow[0], sizeof(std::vector<int>), 
                     MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+        std::cout << "process" << rank << " received" << std::endl;
     }
     minsByParallel[rank] = getParallelMinInRow(localMatrixRow);
+}
+*/
+
+void getParallelMinsInMatrix() {
+    if(!matrixInitialized)
+        getRandomMatrix();
+    for (int i = 0; i < ROWS_COUNT; i++) {
+        minsByParallel[i] = getParallelMinInRow(matrix[i]);
+    }
 }
 
 void printMins() {
@@ -135,6 +150,7 @@ void printMins() {
     }
     std::cout << std::endl;
 }
+
 
 void printMinsByParallel() {
     for (int i = 0; i < ROWS_COUNT; i++) {
