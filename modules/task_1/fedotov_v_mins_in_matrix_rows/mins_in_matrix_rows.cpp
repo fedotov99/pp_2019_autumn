@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <algorithm>
 #include <ctime>
 #include <iostream>
 #include "../../../modules/task_1/fedotov_v_mins_in_matrix_rows/mins_in_matrix_rows.h"
