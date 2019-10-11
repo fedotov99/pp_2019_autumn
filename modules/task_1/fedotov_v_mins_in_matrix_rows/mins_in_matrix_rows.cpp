@@ -18,7 +18,7 @@ std::vector<int> getRandomVector(int n) { // default size is COLS_COUNT
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
     std::vector<int> vec(COLS_COUNT);
-    for (int  i = 0; i < COLS_COUNT; i++) { vec[i] = (gen() + n) % 100; }
+    for (int  i = 0; i < COLS_COUNT; i++) { vec[i] = (gen() + n*2) % 100; }
     return vec;
 }
 
