@@ -11,6 +11,10 @@ TEST(Parallel_Operations_MPI, Can_Create_Random_Vector) {
 }
 
 TEST(Parallel_Operations_MPI, Can_Create_Random_Matrix) {
+    ASSERT_NO_THROW(getRandomMatrix(););
+}
+
+TEST(Parallel_Operations_MPI, Can_Create_Random_Matrix) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     std::vector<int> row;
