@@ -6,8 +6,8 @@
 #include <iostream>
 #include "../../../modules/task_1/fedotov_v_mins_in_matrix_rows/mins_in_matrix_rows.h"
 
-const static int ROWS_COUNT = 10;
-const static int COLS_COUNT = 10;
+const int ROWS_COUNT = 10;
+const int COLS_COUNT = 10;
 
 std::vector<int> matrix[ROWS_COUNT]; // matrix of ROWS_COUNT rows, that's represented as array of vectors<int>
 bool matrixInitialized = false;
@@ -127,4 +127,18 @@ void getParallelMinsInMatrix() { // distribute rows of matrix between processes
                     MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
     }
     minsByParallel[rank] = getParallelMinInRow(localMatrixRow);
+}
+
+void printMins() {
+    for (int i = 0; i < ROWS_COUNT; i++) {
+        std::cout << mins[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+void printMinsByParallel() {
+    for (int i = 0; i < ROWS_COUNT; i++) {
+        std::cout << minsByParallel[i] << " ";
+    }
+    std::cout << std::endl;
 }
