@@ -2,6 +2,7 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
+#include <iostream>
 #include "./mins_in_matrix_rows.h"
 
 TEST(Parallel_Operations_MPI, Can_Create_Random_Vector) {
@@ -13,6 +14,13 @@ TEST(Parallel_Operations_MPI, Can_Create_Random_Vector) {
 TEST(Parallel_Operations_MPI, Can_Create_Random_Matrix) {
     ASSERT_NO_THROW(getRandomMatrix(););
 }
+
+TEST(Parallel_Operations_MPI, Can_Print_Vector) {
+    std::vector<int> vector;
+    vector = getRandomVector();
+    ASSERT_NO_THROW(printVector(vector););
+}
+
 
 TEST(Parallel_Operations_MPI, Can_Print_Matrix) {
     getRandomMatrix();
