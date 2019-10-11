@@ -11,7 +11,8 @@ const static int COLS_COUNT = 10;
 
 std::vector<int> matrix[ROWS_COUNT]; // matrix of ROWS_COUNT rows, that's represented as array of vectors<int>
 bool matrixInitialized = false;
-int mins[ROWS_COUNT]; // array of mins of each row
+int mins[ROWS_COUNT]; // array of mins in each row of matrix
+int minsByParallel[ROWS_COUNT]; // this array is useful for comparison of sequantial and parallel results
 
 std::vector<int> getRandomVector() { // default size is COLS_COUNT
     std::mt19937 gen;
@@ -95,4 +96,33 @@ void getSequentialMinsInMatrix() {
     for (int i = 0; i < ROWS_COUNT; i++) {
         mins[i] = getSequentialMinInRow(matrix[i]);
     }
+}
+
+void getParallelMinsInMatrix() { // distribute rows of matrix between processes
+    int size = ROWS_COUNT;
+    int rank;
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    // send the addresses of each row to other processes
+    if (rank == 0) {
+        for (int proc = 1; proc < size; proc++) {
+            /*MPI_Send(&matrix + proc * sizeof(std::vector<int>), ROWS_COUNT,
+                        MPI_INT, proc, 0, MPI_COMM_WORLD); */
+            MPI_Send(&matrix[proc], ROWS_COUNT,
+                        MPI_INT, proc, 0, MPI_COMM_WORLD);
+        }
+    }
+
+    // receive these addresses of rows in every process
+    std::vector<int> localMatrixRow;
+    if (rank == 0) {
+        localMatrixRow = std::vector<int>(matrix[0]);
+        minsByParallel[0] = getParallelMinInRow(localMatrixRow);
+    } else {
+        MPI_Status status;
+        MPI_Recv(&localMatrixRow, ROWS_COUNT, 
+                    MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+    }
+    minsByParallel[rank] = getParallelMinInRow(localMatrixRow);
 }
