@@ -6,11 +6,17 @@
 #include <iostream>
 #include "../../../modules/task_1/fedotov_v_mins_in_matrix_rows/mins_in_matrix_rows.h"
 
-std::vector<int> getRandomVector(int sz) { // default parameter COLS_COUNT
+const static int ROWS_COUNT = 10;
+const static int COLS_COUNT = 10;
+
+std::vector<int> matrix[ROWS_COUNT]; // matrix of ROWS_COUNT rows, that's represented as array of vectors<int>
+int mins[ROWS_COUNT]; // array of mins of each row
+
+std::vector<int> getRandomVector() { // default size is COLS_COUNT
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
-    std::vector<int> vec(sz);
-    for (int  i = 0; i < sz; i++) { vec[i] = gen() % 100; }
+    std::vector<int> vec(COLS_COUNT);
+    for (int  i = 0; i < COLS_COUNT; i++) { vec[i] = gen() % 100; }
     return vec;
 }
 
