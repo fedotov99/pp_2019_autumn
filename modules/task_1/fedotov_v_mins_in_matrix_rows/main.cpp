@@ -10,7 +10,7 @@ TEST(Parallel_Operations_MPI, Can_Create_Random_Vector) {
 
     ASSERT_NO_THROW(row = getRandomVector(););
 }
-/*
+
 
 TEST(Parallel_Operations_MPI, Can_Create_Random_Matrix) {
     ASSERT_NO_THROW(getRandomMatrix(););
@@ -64,15 +64,9 @@ TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix) {
     for (int i = 0; i < ROWS_COUNT; i++)
         EXPECT_EQ(mins[i], minsByParallel[i]);
 }
-*/
+
 
 int main(int argc, char** argv) {
-
-    getRandomMatrix();
-    printMatrix();
-    getSequentialMinsInMatrix();
-    std::cout << "Mins: " <<std::endl;
-    printMins();
 
 
     ::testing::InitGoogleTest(&argc, argv);
@@ -86,5 +80,16 @@ int main(int argc, char** argv) {
     listeners.Release(listeners.default_xml_generator());
 
     listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
+
+    getRandomMatrix();
+    printMatrix();
+    getSequentialMinsInMatrix();
+    std::cout << "Mins: " <<std::endl;
+    printMins();
+
+    getParallelMinsInMatrix();
+    std::cout << "Parallel mins: " <<std::endl;
+    printMinsByParallel();
+
     return RUN_ALL_TESTS();
 }
