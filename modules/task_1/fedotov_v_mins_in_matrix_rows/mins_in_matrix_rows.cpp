@@ -99,6 +99,8 @@ void getSequentialMinsInMatrix() {
 }
 
 void getParallelMinsInMatrix() { // distribute rows of matrix between processes
+    if(!matrixInitialized)
+        getRandomMatrix();
     int size = ROWS_COUNT;
     int rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
