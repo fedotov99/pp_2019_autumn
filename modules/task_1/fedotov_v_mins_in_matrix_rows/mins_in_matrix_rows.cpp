@@ -109,8 +109,8 @@ void getParallelMinsInMatrix() { // distribute rows of matrix between processes
     // send the addresses of each row to other processes
     if (rank == 0) {
         for (int proc = 1; proc < size; proc++) {
-            /*MPI_Send(&matrix + proc * sizeof(std::vector<int>), ROWS_COUNT,
-                        MPI_INT, proc, 0, MPI_COMM_WORLD); */
+            //MPI_Send(&matrix + proc * sizeof(std::vector<int>), ROWS_COUNT,
+            //            MPI_INT, proc, 0, MPI_COMM_WORLD); 
             MPI_Send(&matrix[proc], ROWS_COUNT,
                         MPI_INT, proc, 0, MPI_COMM_WORLD);
         }
