@@ -1,3 +1,4 @@
+// Copyright 2019 Fedotov Vlad
 #include <mpi.h>
 #include <vector>
 #include <string>
@@ -10,12 +11,12 @@
 const int ROWS_COUNT = 10;
 const int COLS_COUNT = 10;
 
-std::vector<int> matrix[ROWS_COUNT]; // matrix of ROWS_COUNT rows, that's represented as array of vectors<int>
+std::vector<int> matrix[ROWS_COUNT];  // matrix of ROWS_COUNT rows, that's represented as array of vectors<int>
 bool matrixInitialized = false;
-int mins[ROWS_COUNT]; // array of mins in each row of matrix
-int minsByParallel[ROWS_COUNT]; // this array is useful for comparison of sequantial and parallel results
+int mins[ROWS_COUNT];  // array of mins in each row of matrix
+int minsByParallel[ROWS_COUNT];  // this array is useful for comparison of sequantial and parallel results
 
-std::vector<int> getRandomVector(int n) { // default size is COLS_COUNT
+std::vector<int> getRandomVector(int n) {  // default size is COLS_COUNT
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
     std::vector<int> vec(COLS_COUNT);
@@ -25,7 +26,7 @@ std::vector<int> getRandomVector(int n) { // default size is COLS_COUNT
 
 void getRandomMatrix() {
     for (int i = 0; i < ROWS_COUNT; i++) {
-        matrix[i] = getRandomVector(i); // in this task we assume that matrix can be only of equal rows
+        matrix[i] = getRandomVector(i);  // in this task we assume that matrix can be only of equal rows
     }
     matrixInitialized = true;
 }
@@ -46,8 +47,8 @@ void printMatrix() {
             std::cout << std::endl;
         }
     }
-    else std::cout << "Matrix is not initialized " << std::endl;
-
+    else 
+        std::cout << "Matrix is not initialized " << std::endl;
 }
 
 int getSequentialMinInRow(std::vector<int> row) {
@@ -92,7 +93,7 @@ int getParallelMinInRow(std::vector<int> row) {
 }
 
 void getSequentialMinsInMatrix() {
-    if(!matrixInitialized)
+    if (!matrixInitialized)
         getRandomMatrix();
     for (int i = 0; i < ROWS_COUNT; i++) {
         mins[i] = getSequentialMinInRow(matrix[i]);
@@ -100,7 +101,7 @@ void getSequentialMinsInMatrix() {
 }
 
 /*
-void getParallelMinsInMatrix() { // distribute rows of matrix between processes
+void getParallelMinsInMatrix() {  // distribute rows of matrix between processes
     if(!matrixInitialized)
         getRandomMatrix();
     int size, rank;
@@ -138,7 +139,7 @@ void getParallelMinsInMatrix() { // distribute rows of matrix between processes
 */
 
 void getParallelMinsInMatrix() {
-    if(!matrixInitialized)
+    if (!matrixInitialized)
         getRandomMatrix();
     for (int i = 0; i < ROWS_COUNT; i++) {
         minsByParallel[i] = getParallelMinInRow(matrix[i]);

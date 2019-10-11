@@ -1,6 +1,6 @@
 // Copyright 2019 Fedotov Vlad
-#ifndef MODULES_MINS_IN_MATRIX_ROWS_H_
-#define MODULES_MINS_IN_MATRIX_ROWS_H_
+#ifndef MODULES_TASK_1_FEDOTOV_V_MINS_IN_MATRIX_ROWS_MINS_IN_MATRIX_ROWS_H_
+#define MODULES_TASK_1_FEDOTOV_V_MINS_IN_MATRIX_ROWS_MINS_IN_MATRIX_ROWS_H_
 
 #include <vector>
 #include <string>
@@ -27,4 +27,4 @@ void printMatrix();
 void printMins();
 void printMinsByParallel();
 
-#endif  // MODULES_MINS_IN_MATRIX_ROWS_H_
+#endif  // MODULES_TASK_1_FEDOTOV_V_MINS_IN_MATRIX_ROWS_MINS_IN_MATRIX_ROWS_H_

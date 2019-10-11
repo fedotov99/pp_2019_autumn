@@ -57,9 +57,9 @@ TEST(Parallel_Operations_MPI, Test_Parallel_Min_In_Row) {
 
 TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix) {
     getRandomMatrix();
-    
-    getSequentialMinsInMatrix(); // writes to mins[ROWS_COUNT]
-    getParallelMinsInMatrix(); // minsByParallel[ROWS_COUNT]
+
+    getSequentialMinsInMatrix();  // writes to mins[ROWS_COUNT]
+    getParallelMinsInMatrix();  // minsByParallel[ROWS_COUNT]
 
     for (int i = 0; i < ROWS_COUNT; i++)
         EXPECT_EQ(mins[i], minsByParallel[i]);
@@ -67,7 +67,6 @@ TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix) {
 
 
 int main(int argc, char** argv) {
-
 
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
