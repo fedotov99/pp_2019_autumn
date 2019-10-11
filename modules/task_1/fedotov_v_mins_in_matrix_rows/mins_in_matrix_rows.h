@@ -7,6 +7,7 @@
 
 std::vector<int> getRandomVector();
 void getRandomMatrix();
+void printVector(std::vector<int> vec);
 void printMatrix();
 
 int getSequentialMinInRow(std::vector<int> row); // in definite row, not in all matrix
