@@ -5,6 +5,14 @@
 #include <iostream>
 #include "./mins_in_matrix_rows.h"
 
+extern const int ROWS_COUNT;
+extern const int COLS_COUNT;
+
+extern std::vector<int> matrix[];
+extern bool matrixInitialized;
+extern int mins[];
+extern int minsByParallel[];
+
 TEST(Parallel_Operations_MPI, Can_Create_Random_Vector) {
     std::vector<int> row;
 
@@ -53,23 +61,17 @@ TEST(Parallel_Operations_MPI, Test_Parallel_Min_In_Row) {
     }
 }
 
+
 TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix) {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    std::vector<int> row;
+    getRandomMatrix();
+    
+    getSequentialMinsInMatrix(); // writes to mins[ROWS_COUNT]
+    getParallelMinsInMatrix(); // minsByParallel[ROWS_COUNT]
 
-    if (rank == 0) {
-        row = getRandomVector();
-    }
-
-    int min;
-    min = getParallelMinInRow(row);
-
-    if (rank == 0) {
-        int reference_min = getSequentialMinInRow(row);
-        ASSERT_EQ(reference_min, min);
-    }
+    for (int i = 0; i < ROWS_COUNT; i++)
+        EXPECT_EQ(mins[i], minsByParallel[i]);
 }
+
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
