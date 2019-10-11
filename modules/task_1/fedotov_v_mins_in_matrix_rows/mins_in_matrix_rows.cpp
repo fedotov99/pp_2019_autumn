@@ -26,6 +26,13 @@ void getRandomMatrix() {
     }
 }
 
+void printVector(std::vector<int> vec) {
+    int row_size = vec.size();
+    for (int i = 0; i < row_size; i++)
+        std::cout << vec[i] << " ";
+    std::cout << std::endl;
+}
+
 void printMatrix() {
     for (int i = 0; i < ROWS_COUNT; i++) {
         for (int j = 0; j < COLS_COUNT; j++) {
