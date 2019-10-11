@@ -13,7 +13,7 @@ extern bool matrixInitialized;
 extern int mins[];
 extern int minsByParallel[];
 
-std::vector<int> getRandomVector();
+std::vector<int> getRandomVector(int n = 0); // if we don't use "n", vectors of matrix will be equal
 void getRandomMatrix();
 
 int getSequentialMinInRow(std::vector<int> row); // in definite row, not in all matrix

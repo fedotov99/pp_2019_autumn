@@ -14,17 +14,17 @@ bool matrixInitialized = false;
 int mins[ROWS_COUNT]; // array of mins in each row of matrix
 int minsByParallel[ROWS_COUNT]; // this array is useful for comparison of sequantial and parallel results
 
-std::vector<int> getRandomVector() { // default size is COLS_COUNT
+std::vector<int> getRandomVector(int n) { // default size is COLS_COUNT
     std::mt19937 gen;
     gen.seed(static_cast<unsigned int>(time(0)));
     std::vector<int> vec(COLS_COUNT);
-    for (int  i = 0; i < COLS_COUNT; i++) { vec[i] = gen() % 100; }
+    for (int  i = 0; i < COLS_COUNT; i++) { vec[i] = (gen() + n) % 100; }
     return vec;
 }
 
 void getRandomMatrix() {
     for (int i = 0; i < ROWS_COUNT; i++) {
-        matrix[i] = getRandomVector(); // in this task we assume that matrix can be only of equal rows
+        matrix[i] = getRandomVector(i); // in this task we assume that matrix can be only of equal rows
     }
     matrixInitialized = true;
 }
