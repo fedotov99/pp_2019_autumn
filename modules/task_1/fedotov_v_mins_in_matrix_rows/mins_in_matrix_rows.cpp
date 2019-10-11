@@ -46,8 +46,7 @@ void printMatrix() {
             }
             std::cout << std::endl;
         }
-    }
-    else 
+    } else
         std::cout << "Matrix is not initialized " << std::endl;
 }
 

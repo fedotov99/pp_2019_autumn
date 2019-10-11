@@ -67,7 +67,6 @@ TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix) {
 
 
 int main(int argc, char** argv) {
-
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
 
