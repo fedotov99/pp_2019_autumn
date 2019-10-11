@@ -82,3 +82,10 @@ int getParallelMinInRow(std::vector<int> row) {
     MPI_Reduce(&part_min, &min, 1, MPI_INT, MPI_MIN, 0, MPI_COMM_WORLD);
     return min;
 }
+
+void getSequentialMinsInMatrix() {
+    getRandomMatrix();
+    for (int i = 0; i < ROWS_COUNT; i++) {
+        mins[i] = getSequentialMinInRow(matrix[i]);
+    }
+}
