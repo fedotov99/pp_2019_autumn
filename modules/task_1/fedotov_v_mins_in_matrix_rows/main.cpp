@@ -27,6 +27,14 @@ TEST(Parallel_Operations_MPI, Can_Print_Matrix) {
     ASSERT_NO_THROW(printMatrix(););
 }
 
+TEST(Parallel_Operations_MPI, Can_Get_Sequential_Mins_In_Matrix_Unitialized) {
+    ASSERT_NO_THROW(getSequentialMinsInMatrix(););
+}
+
+TEST(Parallel_Operations_MPI, Can_Get_Sequential_Mins_In_Matrix_Initialized) {
+    ASSERT_NO_THROW(getSequentialMinsInMatrix(););
+}
+
 TEST(Parallel_Operations_MPI, Test_Min) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
