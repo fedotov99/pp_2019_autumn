@@ -4,6 +4,16 @@
 #include <vector>
 #include "./mins_in_matrix_rows.h"
 
+TEST(Parallel_Operations_MPI, Can_Create_Random_Vector) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    std::vector<int> row;
+
+    if (rank == 0) {
+        ASSERT_NO_THROW(row = getRandomVector(););
+    }
+}
+
 TEST(Parallel_Operations_MPI, Test_Min) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
