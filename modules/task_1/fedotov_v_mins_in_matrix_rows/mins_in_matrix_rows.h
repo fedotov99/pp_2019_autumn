@@ -5,6 +5,14 @@
 #include <vector>
 #include <string>
 
+extern const int ROWS_COUNT;
+extern const int COLS_COUNT;
+
+extern std::vector<int> matrix[];
+extern bool matrixInitialized;
+extern int mins[];
+extern int minsByParallel[];
+
 std::vector<int> getRandomVector();
 void getRandomMatrix();
 void printVector(std::vector<int> vec);
