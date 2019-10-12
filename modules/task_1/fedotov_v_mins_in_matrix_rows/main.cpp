@@ -16,14 +16,14 @@ TEST(Parallel_Operations_MPI, Can_Create_Random_Matrix) {
     ASSERT_NO_THROW(getRandomMatrix(););
 }
 
-TEST(Parallel_Operations_MPI, Can_Print_Vector) {
+TEST(Parallel_Operations_MPI, DISABLED_Can_Print_Vector) {
     std::vector<int> vector;
     vector = getRandomVector();
     ASSERT_NO_THROW(printVector(vector););
 }
 
 
-TEST(Parallel_Operations_MPI, Can_Print_Matrix) {
+TEST(Parallel_Operations_MPI, DISABLED_Can_Print_Matrix) {
     getRandomMatrix();
     ASSERT_NO_THROW(printMatrix(););
 }
