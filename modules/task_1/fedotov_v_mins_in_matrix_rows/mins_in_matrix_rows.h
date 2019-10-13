@@ -12,7 +12,7 @@ extern const int COLS_COUNT;
 extern std::vector<int> matrix;  // version 2 of realization
 extern bool matrixInitialized;
 extern int minsBySequential[];
-extern int minsByParallel[];
+// extern int minsByParallel[];
 
 // std::vector<int> getRandomVector(int n = 0);  // if we don't use "n", vectors of matrix will be equal
 void getRandomMatrix();
@@ -30,6 +30,6 @@ std::vector<int> getParallelMinsInMatrix();  // mins of each row of matrix will 
 void printVector(std::vector<int> vec);
 void printMatrix();
 void printMins();
-void printMinsByParallel();
+// void printMinsByParallel();
 
 #endif  // MODULES_TASK_1_FEDOTOV_V_MINS_IN_MATRIX_ROWS_MINS_IN_MATRIX_ROWS_H_
