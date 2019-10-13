@@ -80,15 +80,15 @@ int main(int argc, char** argv) {
 
     listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
 
-    getRandomMatrix();
-    printMatrix();
-    getSequentialMinsInMatrix();
+    std::vector<int> matrix = getRandomMatrix(5, 5);
+    printMatrix(matrix, 5, 5);
+    std::vector<int> seqMins = getSequentialMinsInMatrix(matrix, 5, 5);
     std::cout << "Mins: " <<std::endl;
-    printMins();
+    printVector(seqMins);
 
-    std::cout << "Parallel mins: " <<std::endl;
-    printVector(getParallelMinsInMatrix());
-    // printMinsByParallel();
+    //std::cout << "Parallel mins: " <<std::endl;
+    //SIMPLEgetParallelMinsInMatrix();
+    //printVector(minsByParallel);
 
     return RUN_ALL_TESTS();
 }
