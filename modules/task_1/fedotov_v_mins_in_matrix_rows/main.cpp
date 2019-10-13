@@ -86,9 +86,9 @@ int main(int argc, char** argv) {
     std::cout << "Mins: " <<std::endl;
     printVector(seqMins);
 
-    //std::cout << "Parallel mins: " <<std::endl;
-    //SIMPLEgetParallelMinsInMatrix();
-    //printVector(minsByParallel);
+    std::vector<int> parMins = getParallelMinsInMatrix(matrix, 5, 5);
+    std::cout << "Parallel mins: " <<std::endl;
+    printVector(parMins);
 
     return RUN_ALL_TESTS();
 }
