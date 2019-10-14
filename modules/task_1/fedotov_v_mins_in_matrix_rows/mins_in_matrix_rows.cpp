@@ -91,8 +91,7 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
         MPI_Send(&local_mins[0], m / size,
             MPI_INT, 0, 0, MPI_COMM_WORLD);
     }
-    MPI_Finalize();
-    
+
     return minsByParallel;
 }
 
