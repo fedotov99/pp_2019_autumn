@@ -60,22 +60,22 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
                     MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
     }
 
-    std::vector<int> local_mins(0); // m/size
+    std::vector<int> local_mins(0);  // m/size
 
     if (rank == 0) {
         for (int i = 0; i < (m / size); i++) {
             local_mins.push_back(getSequentialMinInVec(std::vector<int>(
                 local_vec.begin() + i * n,
-                local_vec.begin() + (i+1) * n )));
+                local_vec.begin() + (i+1) * n)));
         }
     } else {
         for (int i = 0; i < (m / size); i++) {
             local_mins.push_back(getSequentialMinInVec(std::vector<int>(
-                local_vec.begin() + i * n, local_vec.begin() + (i+1) * n )));
+                local_vec.begin() + i * n, local_vec.begin() + (i+1) * n)));
         }
     }
 
-    std::vector<int> minsByParallel(0); // m
+    std::vector<int> minsByParallel(0);  // m
     if (rank == 0) {
         minsByParallel.insert(minsByParallel.begin(), local_mins.begin(),
             local_mins.end());
@@ -95,14 +95,14 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
     return minsByParallel;
 }
 
-void printVector(std::vector<int>& vec) {
-    for (std::vector<int>::iterator it = vec.begin();
+void printVector(const std::vector<int>& vec) {
+    for (std::vector<int>::const_iterator it = vec.begin();
         it < vec.end(); it++)
         std::cout << *it << " ";
     std::cout << "Vector printed " << std::endl;
 }
 
-void printMatrix(std::vector<int>& matr, int m, int n) {
+void printMatrix(const std::vector<int>& matr, int m, int n) {
     for (int i = 1; i <= m * n; i++) {
             std::cout << matr[i-1] << " ";
             if (i % n == 0)  // move to new row

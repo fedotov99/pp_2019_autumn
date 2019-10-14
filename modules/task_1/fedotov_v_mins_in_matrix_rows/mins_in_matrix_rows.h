@@ -10,7 +10,7 @@ int getSequentialMinInVec(const std::vector<int>& vector);
 std::vector<int> getSequentialMinsInMatrix(const std::vector<int>& matr, int m, int n);
 std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr, int m, int n);
 
-void printVector(std::vector<int>& vec);
-void printMatrix(std::vector<int>& matr, int m, int n);
+void printVector(const std::vector<int>& vec);
+void printMatrix(const std::vector<int>& matr, int m, int n);
 
 #endif  // MODULES_TASK_1_FEDOTOV_V_MINS_IN_MATRIX_ROWS_MINS_IN_MATRIX_ROWS_H_
