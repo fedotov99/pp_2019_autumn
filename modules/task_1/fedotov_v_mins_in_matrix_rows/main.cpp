@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
     listeners.Release(listeners.default_xml_generator());
 
     listeners.Append(new GTestMPIListener::MPIMinimalistPrinter);
-
+/*
     std::vector<int> matrix = getRandomMatrix(5, 5);
     printMatrix(matrix, 5, 5);
     std::vector<int> seqMins = getSequentialMinsInMatrix(matrix, 5, 5);
@@ -89,6 +89,6 @@ int main(int argc, char** argv) {
     std::vector<int> parMins = getParallelMinsInMatrix(matrix, 5, 5);
     std::cout << "Parallel mins: " <<std::endl;
     printVector(parMins);
-
+*/
     return RUN_ALL_TESTS();
 }

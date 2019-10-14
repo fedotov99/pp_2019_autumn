@@ -60,7 +60,7 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
                     MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
     }
 
-    std::vector<int> local_mins(m / size);
+    std::vector<int> local_mins(0); // m/size
 
     if (rank == 0) {
         for (int i = 0; i < (m / size); i++) {
@@ -75,9 +75,9 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
         }
     }
 
-    std::vector<int> minsByParallel(m);
+    std::vector<int> minsByParallel(0); // m
     if (rank == 0) {
-        minsByParallel.insert(minsByParallel.end(), local_mins.begin(),
+        minsByParallel.insert(minsByParallel.begin(), local_mins.begin(),
             local_mins.end());
         MPI_Status status;
         for (int proc = 1; proc < size; proc++) {
@@ -91,6 +91,8 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
         MPI_Send(&local_mins[0], m / size,
             MPI_INT, 0, 0, MPI_COMM_WORLD);
     }
+    MPI_Finalize();
+    
     return minsByParallel;
 }
 
@@ -98,7 +100,7 @@ void printVector(std::vector<int>& vec) {
     for (std::vector<int>::iterator it = vec.begin();
         it < vec.end(); it++)
         std::cout << *it << " ";
-    std::cout << std::endl;
+    std::cout << "Vector printed " << std::endl;
 }
 
 void printMatrix(std::vector<int>& matr, int m, int n) {
@@ -110,7 +112,6 @@ void printMatrix(std::vector<int>& matr, int m, int n) {
 }
 
 /*
-
 void getParallelMinsInMatrix() {
     if(!matrixInitialized)
         getRandomMatrix();
@@ -175,63 +176,6 @@ void getParallelMinsInMatrix() {
     // std::vector<int> minsByParallel(ROWS_COUNT);
     if (rank == 0) {
         minsByParallel = local_mins;
-        MPI_Status status;
-        for (int proc = 1; proc < size; proc++) {
-            std::vector<int> buffer(ROWS_COUNT / size);
-            MPI_Recv(&buffer[0], ROWS_COUNT / size, MPI_INT,
-                proc, 0, MPI_COMM_WORLD, &status);
-            minsByParallel.insert(minsByParallel.begin(), buffer.begin(),
-                buffer.end());
-        }
-    } else {
-        MPI_Send(&local_mins[0], ROWS_COUNT / size,
-            MPI_INT, 0, 0, MPI_COMM_WORLD);
-    }
-}
-
-void SIMPLEgetParallelMinsInMatrix(std::vector<int>& matr, int m, int n) {
-    // suppose, that ROWS_COUNT % size = 0
-
-    int size, rank;
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-    int delta = (ROWS_COUNT / size) * COLS_COUNT;
-
-    if (rank == 0) {
-        for (int proc = 1; proc < size; proc++) {
-            MPI_Send(&matrix[0] + proc * delta, delta,
-                        MPI_INT, proc, 0, MPI_COMM_WORLD);
-        }
-    }
-
-    std::vector<int> local_vec(delta);
-    if (rank == 0) {
-        local_vec = std::vector<int>(matrix.begin(), matrix.begin() + delta);
-    } else {
-        MPI_Status status;
-        MPI_Recv(&local_vec[0], delta,
-                    MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
-    }
-
-    std::vector<int> local_mins(ROWS_COUNT / size);
-
-    if (rank == 0) {
-        for (int i = 0; i < (ROWS_COUNT / size); i++) {
-            local_mins.push_back(getSequentialMinInVec(std::vector<int>(
-                local_vec.begin(),
-                local_vec.begin() + (i+1) * COLS_COUNT )));
-        }
-    } else {
-        for (int i = 0; i < (ROWS_COUNT / size); i++) {
-            local_mins.push_back(getSequentialMinInVec(std::vector<int>(
-                local_vec.begin(), local_vec.begin() + (i+1) * COLS_COUNT )));
-        }
-    }
-
-    if (rank == 0) {
-        minsByParallel.insert(minsByParallel.begin(), local_mins.begin(),
-            local_mins.end());
         MPI_Status status;
         for (int proc = 1; proc < size; proc++) {
             std::vector<int> buffer(ROWS_COUNT / size);
