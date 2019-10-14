@@ -74,10 +74,8 @@ TEST(Parallel_Operations_MPI, Can_Get_Parallel_Mins_In_Matrix) {
         matrix = getRandomMatrix(5, 5);
     }
 
-    mins = getParallelMinsInMatrix(matrix, 5, 5);
-
     if (rank == 0) {
-        ASSERT_NO_THROW();
+        ASSERT_NO_THROW(mins = getParallelMinsInMatrix(matrix, 5, 5););
     }
 }
 
