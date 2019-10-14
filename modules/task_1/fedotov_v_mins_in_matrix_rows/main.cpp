@@ -5,67 +5,64 @@
 #include <iostream>
 #include "./mins_in_matrix_rows.h"
 
-/*
-TEST(Parallel_Operations_MPI, Can_Create_Random_Vector) {
-    std::vector<int> row;
-
-    ASSERT_NO_THROW(row = getRandomVector(););
-}
-
 
 TEST(Parallel_Operations_MPI, Can_Create_Random_Matrix) {
-    ASSERT_NO_THROW(getRandomMatrix(););
+    std::vector<int> matr;
+
+    ASSERT_NO_THROW(matr = getRandomMatrix(3, 3););
 }
 
-TEST(Parallel_Operations_MPI, DISABLED_Can_Print_Vector) {
+TEST(Parallel_Operations_MPI, Can_Create_Random_Matrix_Without_Arguments) {
+    std::vector<int> matr;
+
+    ASSERT_NO_THROW(matr = getRandomMatrix(););
+}
+
+TEST(Parallel_Operations_MPI, Can_Print_Vector) {
     std::vector<int> vector;
-    vector = getRandomVector();
+    vector = getRandomMatrix();
     ASSERT_NO_THROW(printVector(vector););
 }
 
 
 TEST(Parallel_Operations_MPI, DISABLED_Can_Print_Matrix) {
-    getRandomMatrix();
-    ASSERT_NO_THROW(printMatrix(););
+    std::vector<int> matrix;
+    matrix = getRandomMatrix(5, 5);
+    ASSERT_NO_THROW(printMatrix(matrix, 5, 5););
 }
 
-TEST(Parallel_Operations_MPI, Can_Get_Sequential_Mins_In_Matrix_Unitialized) {
-    ASSERT_NO_THROW(getSequentialMinsInMatrix(););
+TEST(Parallel_Operations_MPI, Can_Get_Sequential_Mins_In_Matrix) {
+    std::vector<int> matrix, mins;
+    matrix = getRandomMatrix(5, 5);
+    ASSERT_NO_THROW(mins = getSequentialMinsInMatrix(matrix, 5, 5););
 }
 
-TEST(Parallel_Operations_MPI, Can_Get_Sequential_Mins_In_Matrix_Initialized) {
-    ASSERT_NO_THROW(getSequentialMinsInMatrix(););
-}
-
-TEST(Parallel_Operations_MPI, Test_Parallel_Min_In_Row) {
+TEST(Parallel_Operations_MPI, Can_Get_Parallel_Mins_In_Matrix) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    std::vector<int> row;
+    std::vector<int> matrix, mins;
 
     if (rank == 0) {
-        row = getRandomVector();
+        matrix = getRandomMatrix(5, 5);
     }
-
-    int min;
-    min = getParallelMinInRow(row);
-
-    if (rank == 0) {
-        int reference_min = getSequentialMinInRow(row);
-        ASSERT_EQ(reference_min, min);
-    }
+    
+    mins = getParallelMinsInMatrix(matrix, 5, 5);
+    
+    ASSERT_NO_THROW();
 }
-
 
 TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix) {
-    getRandomMatrix();
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    std::vector<int> matrix, minsSeq, minsPar;
 
-    getSequentialMinsInMatrix();  // writes to mins[ROWS_COUNT]
-    getParallelMinsInMatrix();  // minsByParallel[ROWS_COUNT]
-
-    for (int i = 0; i < ROWS_COUNT; i++)
-        EXPECT_EQ(mins[i], minsByParallel[i]);
+    if (rank == 0) {
+        matrix = getRandomMatrix(5, 5);
+        minsSeq = getSequentialMinsInMatrix(matrix, 5, 5);
+        minsPar = getParallelMinsInMatrix(matrix, 5, 5);
+        ASSERT_EQ(minsSeq, minsPar);
+    }
 }
-*/
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
