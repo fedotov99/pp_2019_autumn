@@ -95,7 +95,6 @@ TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix_4_4) {
     }
 }
 
-/*
 TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix) {
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -143,7 +142,7 @@ TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix_20_20) {
         ASSERT_EQ(minsSeq, minsPar);
     }
 }
-*/
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
