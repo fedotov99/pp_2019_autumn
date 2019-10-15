@@ -52,8 +52,9 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
         }
     }
 
-    std::vector<int> local_vec(0);
+    std::vector<int> local_vec(delta);
     if (rank == 0) {
+        local_vec.resize(rem + delta);
         local_vec = std::vector<int>(matr.begin(), matr.begin() + rem + delta);
     } else {
         MPI_Status status;
