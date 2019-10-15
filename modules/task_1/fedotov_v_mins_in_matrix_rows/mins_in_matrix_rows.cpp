@@ -42,11 +42,20 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    int idle = 0;  // the number of processes without work
+    int busy = size;  // the number of working processes
     int delta = (m / size) * n;  // number of elements per process
     int rem = (m % size) * n;  // remainder which will go to 0 process
 
+    if (m < size) {  // special case
+        idle = size - m;
+        busy = size - idle;
+        delta = n;
+        rem = 0;
+    }
+
     if (rank == 0) {
-        for (int proc = 1; proc < size; proc++) {
+        for (int proc = 1; proc < busy; proc++) {
             MPI_Send(&matr[rem] + proc * delta, delta,
                         MPI_INT, proc, 0, MPI_COMM_WORLD);
         }
@@ -57,23 +66,27 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
         local_vec.resize(rem + delta);
         local_vec = std::vector<int>(matr.begin(), matr.begin() + rem + delta);
     } else {
-        MPI_Status status;
-        MPI_Recv(&local_vec[0], delta,
-                    MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+        if (rank < busy) {
+            MPI_Status status;
+            MPI_Recv(&local_vec[0], delta,
+                        MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
+        }
     }
 
-    std::vector<int> local_mins(0);  // m/size
+    std::vector<int> local_mins(0);  // m/busy
 
     if (rank == 0) {
-        for (int i = 0; i < (m / size); i++) {
+        for (int i = 0; i < (m / busy); i++) {
             local_mins.push_back(getSequentialMinInVec(std::vector<int>(
                 local_vec.begin() + i * n,
                 local_vec.begin() + (i+1) * n)));
         }
     } else {
-        for (int i = 0; i < (m / size); i++) {
-            local_mins.push_back(getSequentialMinInVec(std::vector<int>(
-                local_vec.begin() + i * n, local_vec.begin() + (i+1) * n)));
+        if (rank < busy) {
+            for (int i = 0; i < (m / busy); i++) {
+                local_mins.push_back(getSequentialMinInVec(std::vector<int>(
+                    local_vec.begin() + i * n, local_vec.begin() + (i+1) * n)));
+            }
         }
     }
 
@@ -82,16 +95,18 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
         minsByParallel.insert(minsByParallel.begin(), local_mins.begin(),
             local_mins.end());
         MPI_Status status;
-        for (int proc = 1; proc < size; proc++) {
-            std::vector<int> buffer(m / size);
-            MPI_Recv(&buffer[0], m / size, MPI_INT,
+        for (int proc = 1; proc < busy; proc++) {
+            std::vector<int> buffer(m / busy);
+            MPI_Recv(&buffer[0], m / busy, MPI_INT,
                 proc, 0, MPI_COMM_WORLD, &status);
             minsByParallel.insert(minsByParallel.end(), buffer.begin(),
                 buffer.end());
         }
     } else {
-        MPI_Send(&local_mins[0], m / size,
-            MPI_INT, 0, 0, MPI_COMM_WORLD);
+        if (rank < busy) {
+            MPI_Send(&local_mins[0], m / busy,
+                MPI_INT, 0, 0, MPI_COMM_WORLD);
+        }
     }
 
     return minsByParallel;
