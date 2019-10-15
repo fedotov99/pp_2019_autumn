@@ -43,17 +43,18 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int delta = (m / size) * n;  // number of elements per process
+    int rem = (m % size) * n;  // remainder which will go to 0 process
 
     if (rank == 0) {
         for (int proc = 1; proc < size; proc++) {
-            MPI_Send(&matr[0] + proc * delta, delta,
+            MPI_Send(&matr[rem] + proc * delta, delta,
                         MPI_INT, proc, 0, MPI_COMM_WORLD);
         }
     }
 
-    std::vector<int> local_vec(delta);
+    std::vector<int> local_vec(0);
     if (rank == 0) {
-        local_vec = std::vector<int>(matr.begin(), matr.begin() + delta);
+        local_vec = std::vector<int>(matr.begin(), matr.begin() + rem + delta);
     } else {
         MPI_Status status;
         MPI_Recv(&local_vec[0], delta,
