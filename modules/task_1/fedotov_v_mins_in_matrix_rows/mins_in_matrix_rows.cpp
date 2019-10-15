@@ -76,7 +76,7 @@ std::vector<int> getParallelMinsInMatrix(const std::vector<int>& matr,
     std::vector<int> local_mins(0);  // m/busy
 
     if (rank == 0) {
-        for (int i = 0; i < (m / busy); i++) {
+        for (int i = 0; i < (m / busy + m % busy); i++) {
             local_mins.push_back(getSequentialMinInVec(std::vector<int>(
                 local_vec.begin() + i * n,
                 local_vec.begin() + (i+1) * n)));
