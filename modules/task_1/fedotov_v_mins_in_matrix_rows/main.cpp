@@ -95,6 +95,38 @@ TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix) {
     }
 }
 
+TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix_10_10) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    std::vector<int> matrix, minsPar;
+
+    if (rank == 0)
+        matrix = getRandomMatrix(10, 10);
+
+    minsPar = getParallelMinsInMatrix(matrix, 10, 10);
+
+    if (rank == 0) {
+        std::vector<int> minsSeq = getSequentialMinsInMatrix(matrix, 10, 10);
+        ASSERT_EQ(minsSeq, minsPar);
+    }
+}
+
+TEST(Parallel_Operations_MPI, Test_Parallel_Mins_In_Matrix_20_20) {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    std::vector<int> matrix, minsPar;
+
+    if (rank == 0)
+        matrix = getRandomMatrix(20, 20);
+
+    minsPar = getParallelMinsInMatrix(matrix, 20, 20);
+
+    if (rank == 0) {
+        std::vector<int> minsSeq = getSequentialMinsInMatrix(matrix, 20, 20);
+        ASSERT_EQ(minsSeq, minsPar);
+    }
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     MPI_Init(&argc, &argv);
