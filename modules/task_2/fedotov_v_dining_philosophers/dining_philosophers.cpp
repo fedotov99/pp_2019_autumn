@@ -1,3 +1,4 @@
+// Copyright 2019 Fedotov Vlad
 #include <mpi.h>
 #include <vector>
 #include <string>

@@ -1,3 +1,4 @@
+// Copyright 2019 Fedotov Vlad
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
