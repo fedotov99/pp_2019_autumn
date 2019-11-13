@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
-
+void philosopher(int);
+std::vector<bool> waiter(int);
+void printVector(std::vector<bool>&);
 
 #endif  // MODULES_TASK_2_FEDOTOV_V_DINING_PHILOSOPHERS_H_
