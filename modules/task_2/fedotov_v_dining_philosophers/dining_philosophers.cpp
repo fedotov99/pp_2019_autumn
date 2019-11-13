@@ -17,7 +17,7 @@
 #define ALLOW_EAT 2  // allow to take two nearest forks
 #define END_EAT 3  // ended eating and released forks
 #define DEBUG 1
-#define EATING_CYCLE 1  // each philosopher have to eat EATING_CYCLE times
+#define EATING_CYCLE 2  // each philosopher have to eat EATING_CYCLE times
 
 void philosopher(int rank) {
 	if(DEBUG) printf("Hello from philosopher %d \n", rank);
@@ -49,6 +49,7 @@ std::vector<bool> waiter(int philosophers_count) {
 	// int stop = 0;
 
 	std::list<int> hungry_queue;
+	std::vector<int> number_of_eating_cycles(philosophers_count, 0);
 	std::vector<bool> all_ate_eating_cycle_times(philosophers_count, false);
 
 	bool fork[philosophers_count];  // true if fork is free
@@ -82,8 +83,11 @@ std::vector<bool> waiter(int philosophers_count) {
 			// Mark forks as free
 			fork[philosopher%(philosophers_count)] = true;
 			fork[philosopher-1] = true;
-			//stop++;
-			all_ate_eating_cycle_times[philosopher - 1] = true;
+
+			// check whether philosopher ate EATING_CYCLE times
+			number_of_eating_cycles[philosopher - 1] = number_of_eating_cycles[philosopher - 1] + 1;
+			if (number_of_eating_cycles[philosopher - 1] == EATING_CYCLE)
+				all_ate_eating_cycle_times[philosopher - 1] = true;
 			if(DEBUG) printf("Waiter got philosopher %d fork release\n", philosopher);
 
 			// looking in hungry queue for philosopher, which has both left and right forks free
@@ -101,14 +105,22 @@ std::vector<bool> waiter(int philosophers_count) {
 				}
 			}
 		}
+		printVector(number_of_eating_cycles);
 		printVector(all_ate_eating_cycle_times);
 	}
 	printf("Waiter finished his work! ");
 	return all_ate_eating_cycle_times;
 }
 
-void printVector(std::vector<bool>& vec) {
+void printVector(std::vector<bool>& vec) {  // for bool vectors
     for (std::vector<bool>::const_iterator it = vec.begin();
+        it < vec.end(); it++)
+        std::cout << *it << " ";
+    std::cout << "Vector printed " << std::endl;
+}
+
+void printVector(std::vector<int>& vec) {  // for int vectors
+    for (std::vector<int>::const_iterator it = vec.begin();
         it < vec.end(); it++)
         std::cout << *it << " ";
     std::cout << "Vector printed " << std::endl;
