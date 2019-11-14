@@ -116,12 +116,12 @@ void printVector(std::vector<bool>& vec) {  // for bool vectors
     for (std::vector<bool>::const_iterator it = vec.begin();
         it < vec.end(); it++)
         std::cout << *it << " ";
-    std::cout << "Vector printed " << std::endl;
+    std::cout << "Bool vector printed (philosopher ate EATING_CYCLES times)" << std::endl;
 }
 
 void printVector(std::vector<int>& vec) {  // for int vectors
     for (std::vector<int>::const_iterator it = vec.begin();
         it < vec.end(); it++)
         std::cout << *it << " ";
-    std::cout << "Vector printed " << std::endl;
+    std::cout << "Int vector printed (number of each philosopher's eating)" << std::endl;
 }
