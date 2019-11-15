@@ -11,7 +11,7 @@ TEST(Parallel_Operations_MPI, Test_Philosophers_Ended_Their_Job) {
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int philosophers_count = size - 1;  // one process is waiter, others - philosophers
 
-    if(rank == 0) {
+    if (rank == 0) {
         std::vector<bool> current_all_ate_eating_cycle_times(philosophers_count, false);
         std::vector<bool> expected_all_ate_eating_cycle_times(philosophers_count, true);
         current_all_ate_eating_cycle_times = waiter(philosophers_count);
