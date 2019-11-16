@@ -86,7 +86,7 @@ std::vector<bool> waiter(int philosophers_count) {
             // and allowing him eating
             if (!hungry_queue.empty()) {
                 for (std::list<int>::iterator it = hungry_queue.begin();
-                it != hungry_queue.end(); it++) {
+                it != hungry_queue.end(); ) {
                     philosopher = *it;
                     if (fork[philosopher % (philosophers_count)] == true &&
                     fork[philosopher-1] == true) {
@@ -96,6 +96,8 @@ std::vector<bool> waiter(int philosophers_count) {
                             ALLOW_EAT, MPI_COMM_WORLD);
                         it = hungry_queue.erase(it);
                         // delete from hungry queue
+                    } else {
+                        it++;
                     }
                 }
             }
