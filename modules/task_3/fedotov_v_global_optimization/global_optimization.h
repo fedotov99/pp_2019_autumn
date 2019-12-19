@@ -19,23 +19,39 @@ class Point2D {
 
 class Point3D : Point2D {
  public:
+    double x;
+    double y;
     double z;
 
-    Point3D(double _x, double _y, double _z) : Point2D(_x, _y) {
+    Point3D(double _x, double _y, double _z) {
+        x = _x;
+        y = _y;
         z = _z;
     }
 
-    // friend bool operator<(const Point3D& firstPoint, const Point3D& secondPoint){
-    //     return firstPoint.x < secondPoint.x;
-    // }
+    friend bool operator<(const Point3D& firstPoint, const Point3D& secondPoint){
+        return firstPoint.x < secondPoint.x;
+    }
 };
 
 Point2D getGlobalMinimumOnSegment(double leftBorder, double rightBorder, double(*func)(double x), int maxIterationsCount, double r, double accuracy);
 
 double function_1(double x);
 
+double function_2(double x);
+
+double function_3(double x, double y);
+
+double function_4(double x, double y);
+
 struct Point2DComparator {
     bool operator()(Point2D const& p1, Point2D const& p2) {
+        return p1.x < p2.x;
+    }
+};
+
+struct Point3DComparator {
+    bool operator()(Point3D const& p1, Point3D const& p2) {
         return p1.x < p2.x;
     }
 };
