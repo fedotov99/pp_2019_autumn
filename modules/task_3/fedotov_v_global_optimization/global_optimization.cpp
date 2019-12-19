@@ -77,6 +77,22 @@ Point2D getGlobalMinimumOnSegment(double leftBorder, double rightBorder, double(
             break;
     }
 
-    // find min value in set of trials
-    
+    // find and return calculated min value from set of trials
+
+    auto iterationOnGlobalMin = trials.begin();
+
+    for (auto it=trials.begin(); it != trials.end(); ++it) {
+        std::cout << (it->x) << ' ' << (it->y) << std::endl;
+        if (it->y < iterationOnGlobalMin->y) {
+            iterationOnGlobalMin = it;
+        }
+    }
+
+    Point2D globalMin(iterationOnGlobalMin->x, iterationOnGlobalMin->y);
+
+    return globalMin;
+}
+
+double function_1(double x) {
+    return x*x;
 }

@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 
     // return RUN_ALL_TESTS();
 
-    double(*func)(double) = function;
-    Point2D globalMinOnSegment = getGlobalMinimumOnSegment(-10, -10, func, 100, 2, 0.001);
-    std::cout << globalMinOnSegment.x << " " << globalMinOnSegment.y << std::endl;
+    double(*func)(double) = function_1;
+    Point2D globalMinOnSegment = getGlobalMinimumOnSegment(-10, 10, func, 100, 2, 0.01);
+    std::cout << "Global min is: " << globalMinOnSegment.x << " " << globalMinOnSegment.y << std::endl;
 }

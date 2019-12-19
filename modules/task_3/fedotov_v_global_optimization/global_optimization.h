@@ -32,9 +32,7 @@ class Point3D : Point2D {
 
 Point2D getGlobalMinimumOnSegment(double leftBorder, double rightBorder, double(*func)(double x), int maxIterationsCount, double r, double accuracy);
 
-double function(double x) {
-    return x*x;
-}
+double function_1(double x);
 
 struct Point2DComparator {
     bool operator()(Point2D const& p1, Point2D const& p2) {
