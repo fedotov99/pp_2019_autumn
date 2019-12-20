@@ -84,7 +84,7 @@ Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder, doubl
     auto iterationOnGlobalMin = trials.begin();
 
     for (auto it=trials.begin(); it != trials.end(); ++it) {
-         std::cout << (it->x) << ' ' << (it->y) << std::endl;
+        // std::cout << (it->x) << ' ' << (it->y) << std::endl;
         if (it->y < iterationOnGlobalMin->y) {
             iterationOnGlobalMin = it;
         }
@@ -175,7 +175,7 @@ Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double 
     auto iterationOnGlobalMin = trials.begin();
 
     for (auto it=trials.begin(); it != trials.end(); ++it) {
-        std::cout << (it->x) << ' ' << (it->y) << ' ' << (it->z) << std::endl;
+        // std::cout << (it->x) << ' ' << (it->y) << ' ' << (it->z) << std::endl;
         if (it->z < iterationOnGlobalMin->z) {
             iterationOnGlobalMin = it;
         }
