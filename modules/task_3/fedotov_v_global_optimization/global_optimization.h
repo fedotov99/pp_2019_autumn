@@ -17,7 +17,7 @@ class Point2D {
     }
 };
 
-class Point3D : Point2D {
+class Point3D {
  public:
     double x;
     double y;
@@ -29,16 +29,24 @@ class Point3D : Point2D {
         z = _z;
     }
 
+    // when we fix oX in getGlobalMinimumOnPlane(), we will need this constructor
+    Point3D(double _x, Point2D point2D) {
+        x = _x;
+        y = point2D.x;
+        z = point2D.y;
+    }
+
     friend bool operator<(const Point3D& firstPoint, const Point3D& secondPoint){
         return firstPoint.x < secondPoint.x;
     }
 };
 
-Point2D getGlobalMinimumOnSegment(double leftBorder, double rightBorder, double(*func)(double x), int maxIterationsCount, double r, double accuracy);
+Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder, double rightBorder, double(*func)(double x, double y), int maxIterationsCount, double r, double accuracy);
+Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double yBottomBorder, double yTopBorder, double(*func)(double x, double y), int maxIterationsCount, double r, double accuracy);
 
-double function_1(double x);
+double function_1(double x, double y);
 
-double function_2(double x);
+double function_2(double x, double y);
 
 double function_3(double x, double y);
 
