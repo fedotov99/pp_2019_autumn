@@ -39,7 +39,7 @@ Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder, doubl
 
         // calculate m depending on M
         if (maxM > 0)
-            m = r * M;
+            m = r * maxM;
         else
             m = 1;
 
@@ -131,7 +131,7 @@ Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double 
 
         // calculate m depending on M
         if (maxM > 0)
-            m = r * M;
+            m = r * maxM;
         else
             m = 1;
 
