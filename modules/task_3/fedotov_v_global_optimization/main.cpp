@@ -9,10 +9,40 @@ TEST(Parallel_Operations_MPI, Test_Can_Get_Global_Minimum_Sequentially_F1) {
     double(*func)(double, double) = function_1;
     double xLeftBorder = -10, xRightBorder = 10;
     double yBottomBorder = -10, yTopBorder = 10;
-    double r = 2, accuracy = 0.01;
+    double r = 2, accuracy = 0.1;
     int maxIterationsCount = 100;
 
     Point3D trueGlobalMin(0, 0, 0);
+    Point3D countedGlobalMin = getGlobalMinimumOnPlane(xLeftBorder, xRightBorder,
+    yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy);
+
+    EXPECT_EQ(1, std::abs(countedGlobalMin.x - trueGlobalMin.x) <= accuracy);
+    EXPECT_EQ(1, std::abs(countedGlobalMin.y - trueGlobalMin.y) <= accuracy);
+}
+
+TEST(Parallel_Operations_MPI, Test_Can_Get_Global_Minimum_Sequentially_F2) {
+    double(*func)(double, double) = function_2;
+    double xLeftBorder = -10, xRightBorder = 10;
+    double yBottomBorder = -10, yTopBorder = 10;
+    double r = 2, accuracy = 0.1;
+    int maxIterationsCount = 100;
+
+    Point3D trueGlobalMin(5, -10, -13);
+    Point3D countedGlobalMin = getGlobalMinimumOnPlane(xLeftBorder, xRightBorder,
+    yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy);
+
+    EXPECT_EQ(1, std::abs(countedGlobalMin.x - trueGlobalMin.x) <= accuracy);
+    EXPECT_EQ(1, std::abs(countedGlobalMin.y - trueGlobalMin.y) <= accuracy);
+}
+
+TEST(Parallel_Operations_MPI, Test_Can_Get_Global_Minimum_Sequentially_F3) {
+    double(*func)(double, double) = function_3;
+    double xLeftBorder = -10, xRightBorder = 10;
+    double yBottomBorder = -10, yTopBorder = 10;
+    double r = 2, accuracy = 0.1;
+    int maxIterationsCount = 100;
+
+    Point3D trueGlobalMin(5, 3, 0);
     Point3D countedGlobalMin = getGlobalMinimumOnPlane(xLeftBorder, xRightBorder,
     yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy);
 
