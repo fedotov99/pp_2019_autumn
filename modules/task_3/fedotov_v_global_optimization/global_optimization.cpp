@@ -140,7 +140,7 @@ Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double 
         iteration++;
         previousIteration = trials.begin();
 
-        R = -999;
+        maxR = -999;
 
         auto iterationOnMaxR = trials.begin();
         auto previousIterationOnMaxR = trials.begin();
