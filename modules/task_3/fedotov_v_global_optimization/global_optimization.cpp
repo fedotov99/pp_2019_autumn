@@ -5,7 +5,6 @@
 #include <set>
 #include <cmath>
 #include <iostream>
-#include <cstdlib>
 #include "../../../modules/task_3/fedotov_v_global_optimization/global_optimization.h"
 
 // global min of ONE argument function.
