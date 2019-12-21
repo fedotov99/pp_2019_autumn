@@ -13,9 +13,7 @@ class Point2D {
     }
 
     friend bool operator<(const Point2D& firstPoint,
-    const Point2D& secondPoint){
-        return firstPoint.x < secondPoint.x;
-    }
+    const Point2D& secondPoint);
 };
 
 class Point3D {
@@ -39,9 +37,7 @@ class Point3D {
     }
 
     friend bool operator<(const Point3D& firstPoint,
-    const Point3D& secondPoint){
-        return firstPoint.x < secondPoint.x;
-    }
+    const Point3D& secondPoint);
 };
 
 class characteristicR {

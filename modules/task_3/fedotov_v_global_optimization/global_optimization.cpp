@@ -5,7 +5,6 @@
 #include <set>
 #include <cmath>
 #include <iostream>
-#include <cstdlib>
 #include "../../../modules/task_3/fedotov_v_global_optimization/global_optimization.h"
 
 // global min of ONE argument function.
@@ -407,3 +406,14 @@ double function_2(double x, double y) {
 double function_3(double x, double y) {
     return (x-5)*(x-5) + (y-3)*(y-3);
 }
+
+bool operator<(const Point2D& firstPoint,
+    const Point2D& secondPoint) {
+        return firstPoint.x < secondPoint.x;
+    }
+
+bool operator<(const Point3D& firstPoint,
+    const Point3D& secondPoint) {
+        return firstPoint.x < secondPoint.x;
+    }
+    
