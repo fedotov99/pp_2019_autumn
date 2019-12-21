@@ -228,14 +228,14 @@ double accuracy) {
 
     Point3D localMin(-9999, -9999, -9999);
     Point3D globalMin(-9999, -9999, -9999);
-    printf("Before %d\n", rank);
+    // printf("Before %d\n", rank);
 
     if (rank == 0) {
-        printf("Hello from 0\n");
+        // printf("Hello from 0\n");
         std::set<Point3D, Point3DComparator> trials;
         double M, maxM, m, R;
         int countOfTrials = 0;
-        printf("rank 0 after var init\n");
+        // printf("rank 0 after var init\n");
 
         double partPerProcess = (xRightBorder - xLeftBorder) / (size - 1);
         for (int proc = 1; proc < size; ++proc) {
@@ -243,7 +243,7 @@ double accuracy) {
             MPI_Send(&fixedVariable, 1, MPI_DOUBLE, proc, 1, MPI_COMM_WORLD);
         }
 
-        printf("rank 0 after send\n");
+        // printf("rank 0 after send\n");
 
         trials.insert(Point3D(xLeftBorder, getGlobalMinimumOnSegment(
         xLeftBorder,
@@ -254,7 +254,7 @@ double accuracy) {
             maxIterationsCount, r, accuracy)));
         countOfTrials++;
 
-        printf("rank 0 before recv\n");
+        // printf("rank 0 before recv\n");
         double tmpLocalMin[3];
         for (int proc = 1; proc < size; ++proc) {
             MPI_Recv(tmpLocalMin, 3, MPI_DOUBLE, proc, 1,
@@ -263,13 +263,13 @@ double accuracy) {
             tmpLocalMin[2]));
         }
 
-        printf("rank 0 after recv\n");
+        // printf("rank 0 after recv\n");
 
         std::set<characteristicR> characteristics;
 
         bool accuracyAchieved = false;
         while (!accuracyAchieved && countOfTrials < maxIterationsCount) {
-            printf("rank 0 in while\n");
+            // printf("rank 0 in while\n");
             characteristics.clear();
             maxM = -999;
             auto iteration = trials.begin();
@@ -278,7 +278,7 @@ double accuracy) {
 
             // calculate max M, which actually is max derivative on intervals
             while (iteration != trials.end()) {
-                printf("rank 0 in inner while\n");
+                // printf("rank 0 in inner while\n");
                 M = std::abs(static_cast<double>(
                     (iteration->z - previousIteration->z) /
                     (iteration->x - previousIteration->x)));
@@ -288,7 +288,7 @@ double accuracy) {
                 previousIteration++;
             }
 
-            printf("rank 0 after inner while\n");
+            // printf("rank 0 after inner while\n");
 
             // calculate m depending on M
             if (maxM > 0)
@@ -303,7 +303,7 @@ double accuracy) {
 
             // calculate R
             while (iteration != trials.end()) {
-                printf("rank 0 in R inner while\n");
+                // printf("rank 0 in R inner while\n");
                 R = m*(iteration->x - previousIteration->x) +
                 (std::pow((iteration->z - previousIteration->z), 2) /
                 (m * (iteration->x - previousIteration->x))) - 2 *
@@ -317,7 +317,7 @@ double accuracy) {
                 previousIteration++;
             }
 
-            printf("rank 0 after R inner while\n");
+            // printf("rank 0 after R inner while\n");
 
             auto iteratorR = characteristics.begin();
 
@@ -333,7 +333,7 @@ double accuracy) {
                 }
                 iteratorR++;
             }
-            printf("rank 0 after send newPointForTrial\n");
+            // printf("rank 0 after send newPointForTrial\n");
 
             if (accuracyAchieved == true) {
                 break;
@@ -346,10 +346,10 @@ double accuracy) {
                 trials.insert(Point3D(tmpLocalMin_2[0],
                 tmpLocalMin_2[1], tmpLocalMin_2[2]));
             }
-            printf("rank 0 after recv localMin\n");
+            // printf("rank 0 after recv localMin\n");
         }
 
-        printf("rank 0 after outer while\n");
+        // printf("rank 0 after outer while\n");
 
         for (int proc = 1; proc < size; ++proc) {
             double terminate = accuracy * 0.001;
@@ -374,7 +374,7 @@ double accuracy) {
         iterationOnGlobalMin->y, iterationOnGlobalMin->z);
 
     } else {
-        printf("Hello from %d", rank);
+        // printf("Hello from %d", rank);
         bool terminate = false;
         while (!terminate) {
             double message;
@@ -391,7 +391,7 @@ double accuracy) {
             }
         }
     }
-    printf("after: %d", rank);
+    // printf("after: %d", rank);
     return globalMin;
 }
 
