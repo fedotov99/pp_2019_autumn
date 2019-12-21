@@ -41,8 +41,30 @@ class Point3D {
     }
 };
 
+class characteristicR {
+ public:
+    double R;
+    double x;
+    double z;
+    double xPrevious;
+    double zPrevious;
+
+    characteristicR(double _R, double _x, double _z, double _xPrevious, double _zPrevious) {
+        R = _R;
+        x = _x;
+        z = _z;
+        xPrevious = _xPrevious;
+        zPrevious = _zPrevious;
+    }
+
+    friend bool operator<(const characteristicR& r1, const characteristicR& r2) {
+        return r1.R > r2.R;
+    }
+};
+
 Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder, double rightBorder, double(*func)(double x, double y), int maxIterationsCount, double r, double accuracy);
 Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double yBottomBorder, double yTopBorder, double(*func)(double x, double y), int maxIterationsCount, double r, double accuracy);
+Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder, double xRightBorder, double yBottomBorder, double yTopBorder, double(*func)(double x, double y), int maxIterationsCount, double r, double accuracy);
 
 double function_1(double x, double y);
 
