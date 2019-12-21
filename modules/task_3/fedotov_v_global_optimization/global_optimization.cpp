@@ -10,7 +10,9 @@
 // global min of ONE argument function.
 // fixed variable is need for dimensional reduction method,
 // its destination will be clear in getGlobalMinimumOnPlane() function
-Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder, double rightBorder, double(*func)(double x, double y), int maxIterationsCount, double r, double accuracy) {
+Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder,
+double rightBorder, double(*func)(double x, double y), int maxIterationsCount,
+double r, double accuracy) {
     std::set<Point2D, Point2DComparator> trials;  // calculated points
 
     double M, maxM, m, R, maxR;
@@ -30,7 +32,9 @@ Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder, doubl
 
         // calculate max M, which actually is max derivative on intervals
         while (iteration != trials.end()) {
-            M = std::abs(static_cast<double>((iteration->y - previousIteration->y) / (iteration->x - previousIteration->x)));
+            M = std::abs(static_cast<double>(
+                (iteration->y - previousIteration->y) /
+                (iteration->x - previousIteration->x)));
             if (M > maxM)
                 maxM = M;
             iteration++;
@@ -55,8 +59,10 @@ Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder, doubl
 
         // calculate R
         while (iteration != trials.end()) {
-            R = m*(iteration->x - previousIteration->x) + (std::pow((iteration->y - previousIteration->y), 2) /
-            (m * (iteration->x - previousIteration->x))) - 2 * (iteration->y + previousIteration->y);
+            R = m*(iteration->x - previousIteration->x) + (std::pow(
+                (iteration->y - previousIteration->y), 2) /
+            (m * (iteration->x - previousIteration->x))) - 2 *
+            (iteration->y + previousIteration->y);
             if (R > maxR) {
                 maxR = R;
                 iterationOnMaxR = iteration;
@@ -69,10 +75,13 @@ Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder, doubl
         countOfTrials++;
 
         // calculating X of new point for trial
-        double newPointForTrial = (0.5)*(iterationOnMaxR->x + previousIterationOnMaxR->x) - ((iterationOnMaxR->y - previousIterationOnMaxR->y) / (2 * m));
+        double newPointForTrial = (0.5)*(iterationOnMaxR->x +
+        previousIterationOnMaxR->x) - ((iterationOnMaxR->y -
+        previousIterationOnMaxR->y) / (2 * m));
 
         // save new counted value of function in new point
-        trials.insert(Point2D(newPointForTrial, func(fixedVariable, newPointForTrial)));
+        trials.insert(Point2D(newPointForTrial, func(fixedVariable,
+        newPointForTrial)));
 
         // finish our work when interval is less than required accuracy
         if (iterationOnMaxR->x - previousIterationOnMaxR->x <= accuracy)
@@ -84,14 +93,16 @@ Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder, doubl
     auto iterationOnGlobalMin = trials.begin();
 
     for (auto it=trials.begin(); it != trials.end(); ++it) {
-        // std::cout << fixedVariable << ' ' << (it->x) << ' ' << (it->y) << std::endl;
+        // std::cout << fixedVariable << ' ' << (it->x) << ' ' <<
+        // (it->y) << std::endl;
         if (it->y < iterationOnGlobalMin->y) {
             iterationOnGlobalMin = it;
         }
     }
 
     Point2D globalMin(iterationOnGlobalMin->x, iterationOnGlobalMin->y);
-    // std::cout << fixedVariable << ' ' << (iterationOnGlobalMin->x) << ' ' << (iterationOnGlobalMin->y) << std::endl;
+    // std::cout << fixedVariable << ' ' << (iterationOnGlobalMin->x) <<
+    // ' ' << (iterationOnGlobalMin->y) << std::endl;
 
     return globalMin;
 }
@@ -100,7 +111,9 @@ Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder, doubl
 // suppose oX is left-right and oY is bottom-top. oZ is the target function
 // we are going to fix oX coordinate, then find minimum on oY segment,
 // then choose min of mins
-Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double yBottomBorder, double yTopBorder, double(*func)(double x, double y), int maxIterationsCount, double r, double accuracy) {
+Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder,
+double yBottomBorder, double yTopBorder, double(*func)(double x, double y),
+int maxIterationsCount, double r, double accuracy) {
     std::set<Point3D, Point3DComparator> trials;  // calculated points
 
     double M, maxM, m, R, maxR;
@@ -109,9 +122,11 @@ Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double 
     // handle borders
     // the second param after xLeftBorder will return point2D,
     // and overloaded constructor for  Point3D will be used
-    trials.insert(Point3D(xLeftBorder, getGlobalMinimumOnSegment(xLeftBorder, yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy)));
+    trials.insert(Point3D(xLeftBorder, getGlobalMinimumOnSegment(xLeftBorder,
+    yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy)));
     countOfTrials++;
-    trials.insert(Point3D(xRightBorder, getGlobalMinimumOnSegment(xRightBorder, yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy)));
+    trials.insert(Point3D(xRightBorder, getGlobalMinimumOnSegment(xRightBorder,
+    yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy)));
     countOfTrials++;
 
     while (countOfTrials < maxIterationsCount) {
@@ -122,7 +137,9 @@ Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double 
 
         // calculate max M, which actually is max derivative on intervals
         while (iteration != trials.end()) {
-            M = std::abs(static_cast<double>((iteration->z - previousIteration->z) / (iteration->x - previousIteration->x)));
+            M = std::abs(static_cast<double>(
+                (iteration->z - previousIteration->z) /
+                (iteration->x - previousIteration->x)));
             if (M > maxM)
                 maxM = M;
             iteration++;
@@ -147,8 +164,10 @@ Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double 
 
         // calculate R
         while (iteration != trials.end()) {
-            R = m*(iteration->x - previousIteration->x) + (std::pow((iteration->z - previousIteration->z), 2) /
-            (m * (iteration->x - previousIteration->x))) - 2 * (iteration->z + previousIteration->z);
+            R = m*(iteration->x - previousIteration->x) +
+            (std::pow((iteration->z - previousIteration->z), 2) /
+            (m * (iteration->x - previousIteration->x))) - 2 *
+            (iteration->z + previousIteration->z);
             if (R > maxR) {
                 maxR = R;
                 iterationOnMaxR = iteration;
@@ -161,10 +180,14 @@ Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double 
         countOfTrials++;
 
         // calculating X of new point for trial
-        double newPointForTrial = (0.5)*(iterationOnMaxR->x + previousIterationOnMaxR->x) - ((iterationOnMaxR->z - previousIterationOnMaxR->z) / (2 * m));
+        double newPointForTrial = (0.5)*(iterationOnMaxR->x +
+        previousIterationOnMaxR->x) - ((iterationOnMaxR->z -
+        previousIterationOnMaxR->z) / (2 * m));
 
         // save new counted value of function in new point
-        trials.insert(Point3D(newPointForTrial, getGlobalMinimumOnSegment(newPointForTrial, yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy)));
+        trials.insert(Point3D(newPointForTrial,
+        getGlobalMinimumOnSegment(newPointForTrial, yBottomBorder,
+        yTopBorder, func, maxIterationsCount, r, accuracy)));
 
         // finish our work when interval is less than required accuracy
         if (iterationOnMaxR->x - previousIterationOnMaxR->x <= accuracy &&
@@ -177,19 +200,26 @@ Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double 
     auto iterationOnGlobalMin = trials.begin();
 
     for (auto it=trials.begin(); it != trials.end(); ++it) {
-        // std::cout << (it->x) << ' ' << (it->y) << ' ' << (it->z) << std::endl;
+        // std::cout << (it->x) << ' ' << (it->y)
+        // << ' ' << (it->z) << std::endl;
         if (it->z < iterationOnGlobalMin->z) {
             iterationOnGlobalMin = it;
         }
     }
 
-    Point3D globalMin(iterationOnGlobalMin->x, iterationOnGlobalMin->y, iterationOnGlobalMin->z);
-    // std::cout << (iterationOnGlobalMin->x) << ' ' << (iterationOnGlobalMin->y) << ' ' << (iterationOnGlobalMin->z) << std::endl;
+    Point3D globalMin(iterationOnGlobalMin->x, iterationOnGlobalMin->y,
+    iterationOnGlobalMin->z);
+    // std::cout << (iterationOnGlobalMin->x) << ' ' <<
+    // (iterationOnGlobalMin->y) << ' ' << (iterationOnGlobalMin->z)
+    // << std::endl;
 
     return globalMin;
 }
 
-Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder, double xRightBorder, double yBottomBorder, double yTopBorder, double(*func)(double x, double y), int maxIterationsCount, double r, double accuracy) {
+Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder,
+double xRightBorder, double yBottomBorder, double yTopBorder,
+double(*func)(double x, double y), int maxIterationsCount, double r,
+double accuracy) {
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -215,16 +245,22 @@ Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder, double xRightBorde
 
         printf("rank 0 after send\n");
 
-        trials.insert(Point3D(xLeftBorder, getGlobalMinimumOnSegment(xLeftBorder, yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy)));
+        trials.insert(Point3D(xLeftBorder, getGlobalMinimumOnSegment(
+        xLeftBorder,
+        yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy)));
         countOfTrials++;
-        trials.insert(Point3D(xRightBorder, getGlobalMinimumOnSegment(xRightBorder, yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy)));
+        trials.insert(Point3D(xRightBorder, getGlobalMinimumOnSegment(
+            xRightBorder, yBottomBorder, yTopBorder, func,
+            maxIterationsCount, r, accuracy)));
         countOfTrials++;
 
         printf("rank 0 before recv\n");
         double tmpLocalMin[3];
         for (int proc = 1; proc < size; ++proc) {
-            MPI_Recv(tmpLocalMin, 3, MPI_DOUBLE, proc, 1, MPI_COMM_WORLD, &status);
-            trials.insert(Point3D(tmpLocalMin[0], tmpLocalMin[1], tmpLocalMin[2]));
+            MPI_Recv(tmpLocalMin, 3, MPI_DOUBLE, proc, 1,
+            MPI_COMM_WORLD, &status);
+            trials.insert(Point3D(tmpLocalMin[0], tmpLocalMin[1],
+            tmpLocalMin[2]));
         }
 
         printf("rank 0 after recv\n");
@@ -243,7 +279,9 @@ Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder, double xRightBorde
             // calculate max M, which actually is max derivative on intervals
             while (iteration != trials.end()) {
                 printf("rank 0 in inner while\n");
-                M = std::abs(static_cast<double>((iteration->z - previousIteration->z) / (iteration->x - previousIteration->x)));
+                M = std::abs(static_cast<double>(
+                    (iteration->z - previousIteration->z) /
+                    (iteration->x - previousIteration->x)));
                 if (M > maxM)
                     maxM = M;
                 iteration++;
@@ -266,10 +304,14 @@ Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder, double xRightBorde
             // calculate R
             while (iteration != trials.end()) {
                 printf("rank 0 in R inner while\n");
-                R = m*(iteration->x - previousIteration->x) + (std::pow((iteration->z - previousIteration->z), 2) /
-                (m * (iteration->x - previousIteration->x))) - 2 * (iteration->z + previousIteration->z);
-                
-                characteristics.insert(characteristicR(R, iteration->x, iteration->z, previousIteration->x, previousIteration->z));
+                R = m*(iteration->x - previousIteration->x) +
+                (std::pow((iteration->z - previousIteration->z), 2) /
+                (m * (iteration->x - previousIteration->x))) - 2 *
+                (iteration->z + previousIteration->z);
+
+                characteristics.insert(
+                    characteristicR(R, iteration->x, iteration->z,
+                    previousIteration->x, previousIteration->z));
 
                 iteration++;
                 previousIteration++;
@@ -281,8 +323,11 @@ Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder, double xRightBorde
 
             for (int proc = 1; proc < size; ++proc) {
                 countOfTrials++;
-                double newPointForTrial = (0.5)*(iteratorR->x + iteratorR->xPrevious) - ((iteratorR->z - iteratorR->zPrevious) / (2 * m));
-                MPI_Send(&newPointForTrial, 1, MPI_DOUBLE, proc, 1, MPI_COMM_WORLD);
+                double newPointForTrial = (0.5)*
+                (iteratorR->x + iteratorR->xPrevious) -
+                ((iteratorR->z - iteratorR->zPrevious) / (2 * m));
+                MPI_Send(&newPointForTrial, 1, MPI_DOUBLE, proc, 1,
+                MPI_COMM_WORLD);
                 if (iteratorR->x - iteratorR->xPrevious <= accuracy) {
                     accuracyAchieved = true;
                 }
@@ -290,14 +335,16 @@ Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder, double xRightBorde
             }
             printf("rank 0 after send newPointForTrial\n");
 
-            if(accuracyAchieved == true) {
+            if (accuracyAchieved == true) {
                 break;
             }
-            
+
             double tmpLocalMin_2[3];
             for (int proc = 1; proc < size; ++proc) {
-                MPI_Recv(tmpLocalMin_2, 3, MPI_DOUBLE, proc, 1, MPI_COMM_WORLD, &status);
-                trials.insert(Point3D(tmpLocalMin_2[0], tmpLocalMin_2[1], tmpLocalMin_2[2]));
+                MPI_Recv(tmpLocalMin_2, 3, MPI_DOUBLE, proc,
+                1, MPI_COMM_WORLD, &status);
+                trials.insert(Point3D(tmpLocalMin_2[0],
+                tmpLocalMin_2[1], tmpLocalMin_2[2]));
             }
             printf("rank 0 after recv localMin\n");
         }
@@ -316,13 +363,15 @@ Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder, double xRightBorde
         auto iterationOnGlobalMin = trials.begin();
 
         for (auto it=trials.begin(); it != trials.end(); ++it) {
-            // std::cout << (it->x) << ' ' << (it->y) << ' ' << (it->z) << std::endl;
+            // std::cout << (it->x) << ' '
+            // << (it->y) << ' ' << (it->z) << std::endl;
             if (it->z < iterationOnGlobalMin->z) {
                 iterationOnGlobalMin = it;
             }
         }
 
-        globalMin = Point3D(iterationOnGlobalMin->x, iterationOnGlobalMin->y, iterationOnGlobalMin->z);
+        globalMin = Point3D(iterationOnGlobalMin->x,
+        iterationOnGlobalMin->y, iterationOnGlobalMin->z);
 
     } else {
         printf("Hello from %d", rank);
@@ -333,9 +382,12 @@ Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder, double xRightBorde
             if (message == accuracy * 0.001) {
                 terminate = true;
             } else {
-                localMin = Point3D(message, getGlobalMinimumOnSegment(message, yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy));
+                localMin = Point3D(message,
+                getGlobalMinimumOnSegment(message, yBottomBorder, yTopBorder,
+                func, maxIterationsCount, r, accuracy));
                 double tmpLocalMin_3[3] = {localMin.x, localMin.y, localMin.z };
-                MPI_Send(&tmpLocalMin_3[0], 3, MPI_DOUBLE, 0, 1, MPI_COMM_WORLD);
+                MPI_Send(&tmpLocalMin_3[0], 3, MPI_DOUBLE, 0, 1,
+                MPI_COMM_WORLD);
             }
         }
     }

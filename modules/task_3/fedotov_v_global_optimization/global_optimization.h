@@ -12,7 +12,8 @@ class Point2D {
         y = _y;
     }
 
-    friend bool operator<(const Point2D& firstPoint, const Point2D& secondPoint){
+    friend bool operator<(const Point2D& firstPoint,
+    const Point2D& secondPoint){
         return firstPoint.x < secondPoint.x;
     }
 };
@@ -29,14 +30,16 @@ class Point3D {
         z = _z;
     }
 
-    // when we fix oX in getGlobalMinimumOnPlane(), we will need this constructor
+    // when we fix oX in getGlobalMinimumOnPlane(),
+    // we will need this constructor
     Point3D(double _x, Point2D point2D) {
         x = _x;
         y = point2D.x;
         z = point2D.y;
     }
 
-    friend bool operator<(const Point3D& firstPoint, const Point3D& secondPoint){
+    friend bool operator<(const Point3D& firstPoint,
+    const Point3D& secondPoint){
         return firstPoint.x < secondPoint.x;
     }
 };
@@ -49,7 +52,8 @@ class characteristicR {
     double xPrevious;
     double zPrevious;
 
-    characteristicR(double _R, double _x, double _z, double _xPrevious, double _zPrevious) {
+    characteristicR(double _R, double _x, double _z,
+    double _xPrevious, double _zPrevious) {
         R = _R;
         x = _x;
         z = _z;
@@ -57,14 +61,22 @@ class characteristicR {
         zPrevious = _zPrevious;
     }
 
-    friend bool operator<(const characteristicR& r1, const characteristicR& r2) {
+    friend bool operator<(const characteristicR& r1,
+    const characteristicR& r2) {
         return r1.R > r2.R;
     }
 };
 
-Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder, double rightBorder, double(*func)(double x, double y), int maxIterationsCount, double r, double accuracy);
-Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder, double yBottomBorder, double yTopBorder, double(*func)(double x, double y), int maxIterationsCount, double r, double accuracy);
-Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder, double xRightBorder, double yBottomBorder, double yTopBorder, double(*func)(double x, double y), int maxIterationsCount, double r, double accuracy);
+Point2D getGlobalMinimumOnSegment(double fixedVariable, double leftBorder,
+    double rightBorder, double(*func)(double x, double y),
+        int maxIterationsCount, double r, double accuracy);
+Point3D getGlobalMinimumOnPlane(double xLeftBorder, double xRightBorder,
+    double yBottomBorder, double yTopBorder, double(*func)(double x, double y),
+        int maxIterationsCount, double r, double accuracy);
+Point3D getGlobalMinimumOnPlaneParallelly(double xLeftBorder,
+    double xRightBorder, double yBottomBorder, double yTopBorder,
+        double(*func)(double x, double y), int maxIterationsCount, double r,
+            double accuracy);
 
 double function_1(double x, double y);
 
