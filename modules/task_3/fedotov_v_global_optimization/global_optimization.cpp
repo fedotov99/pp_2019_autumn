@@ -416,4 +416,3 @@ bool operator<(const Point3D& firstPoint,
     const Point3D& secondPoint) {
         return firstPoint.x < secondPoint.x;
     }
-    
