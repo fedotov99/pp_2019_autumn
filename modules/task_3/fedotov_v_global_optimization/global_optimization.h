@@ -83,13 +83,13 @@ double function_3(double x, double y);
 double function_4(double x, double y);
 
 struct Point2DComparator {
-    bool operator()(Point2D const& p1, Point2D const& p2) {
+    bool operator()(Point2D const& p1, Point2D const& p2)const {
         return p1.x < p2.x;
     }
 };
 
 struct Point3DComparator {
-    bool operator()(Point3D const& p1, Point3D const& p2) {
+    bool operator()(Point3D const& p1, Point3D const& p2)const {
         return p1.x < p2.x;
     }
 };
