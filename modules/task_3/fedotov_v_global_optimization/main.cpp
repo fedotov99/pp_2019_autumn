@@ -67,13 +67,23 @@ TEST(Parallel_Operations_MPI, Can_Get_Parallel_Min) {
     int maxIterationsCount = 100;
 
     Point3D trueGlobalMin(5, -10, -13);
-    Point3D result = getGlobalMinimumOnPlaneParallelly(xLeftBorder,
-    xRightBorder,
-    yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy);
+    if (size > 1) {
+        Point3D result = getGlobalMinimumOnPlaneParallelly(xLeftBorder,
+        xRightBorder,
+        yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy);
 
-    if (rank == 0) {
-        EXPECT_EQ(1, std::abs(result.x - trueGlobalMin.x) <= accuracy);
-        EXPECT_EQ(1, std::abs(result.y - trueGlobalMin.y) <= accuracy);
+        if (rank == 0) {
+            EXPECT_EQ(1, std::abs(result.x - trueGlobalMin.x) <= accuracy);
+            EXPECT_EQ(1, std::abs(result.y - trueGlobalMin.y) <= accuracy);
+        }
+    } else {
+        Point3D result = getGlobalMinimumOnPlane(xLeftBorder, xRightBorder,
+        yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy);
+
+        if (rank == 0) {
+            EXPECT_EQ(1, std::abs(result.x - trueGlobalMin.x) <= accuracy);
+            EXPECT_EQ(1, std::abs(result.y - trueGlobalMin.y) <= accuracy);
+        }
     }
 }
 

@@ -222,6 +222,11 @@ double(*func)(double x, double y), int maxIterationsCount, double r,
 double accuracy) {
     int size, rank;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    if (!(size > 1))
+        return getGlobalMinimumOnPlane(xLeftBorder, xRightBorder,
+        yBottomBorder, yTopBorder, func, maxIterationsCount, r, accuracy);
+
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Status status;
 
